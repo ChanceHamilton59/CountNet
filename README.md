@@ -8,16 +8,17 @@ This Network is used to count object in video frames. Was developed for a USF Co
   ```console
       git clone git@github.com:ChanceHamilton59/CountNet.git 
   ```
-# Datasets
+# Datasets and Pretrained Model
 This repo has two datasets. They both consists of custom python class objects found in the file "DataPoint.py". These Datasets are found in "Datasets/" folder:
   1. FullDataset.obj consists of 45254 samples, evenly distributied between 1-6 object counts
   2. unseenData.obj consists of 118 samples , they consists of frames with 7-13 object counts. These were never used for training and are used to test how the model generalizes to unseen object counts. 
 
-To get the data sets you will need to download them from the shared link provided by onedrive. You can get the data by clicking [here](https://drive.google.com/drive/folders/1eTfM-uAG4hYV5Y3Px67QohSmAxTjV8Id?usp=sharing) or by running the following line in a terminal:
+To get the datasets and pretrained model you will need to download them from the [shared link](https://drive.google.com/drive/folders/1eTfM-uAG4hYV5Y3Px67QohSmAxTjV8Id?usp=sharing) or by running the following line in a terminal:
 
   ```console
        wget --no-check-certificate "https://drive.google.com/drive/folders/1eTfM-uAG4hYV5Y3Px67QohSmAxTjV8Id?usp=sharing"
   ```
+ Once you download the dataset and pretrained model you will need to move them into the **CountNet/** directory. Take note of their local path as you will need them to either train the model or load it for your own testing. 
 
 # To Run Locally
 If you wish to run the model locally on your machine from the file open a terminal session
