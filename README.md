@@ -13,6 +13,12 @@ This repo has two datasets. They both consists of custom python class objects fo
   1. FullDataset.obj consists of 45254 samples, evenly distributied between 1-6 object counts
   2. unseenData.obj consists of 118 samples , they consists of frames with 7-13 object counts. These were never used for training and are used to test how the model generalizes to unseen object counts. 
 
+To get the data sets you will need to download them from the shared link provided by onedrive. You can get the data by clicking [here](https://usfedu-my.sharepoint.com/:f:/g/personal/chamilton4_usf_edu/El-kMp3pKyRJg-DmuZbE3RABpPD8ZBsHZkPn-UY2gLpbCw?e=CF0bPx) or by running the following line in a terminal:
+
+  ```console
+       $  wget --no-check-certificate "https://usfedu-my.sharepoint.com/:f:/g/personal/chamilton4_usf_edu/El-kMp3pKyRJg-DmuZbE3RABpPD8ZBsHZkPn-UY2gLpbCw?e=CF0bPx"
+  ```
+
 # To Run Locally
 If you wish to run the model locally on your machine from the file open a terminal session
   1. Run:
