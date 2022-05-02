@@ -5,6 +5,9 @@ import pandas as pd
 import pickle
 import os
 
+from sklearn.metrics import confusion_matrix
+import seaborn as sn
+
 from DataPoint import *
 
 
@@ -87,24 +90,21 @@ def evalOnDataset(data, model):
 	error = 0
 	accuracy = 0
 	misses = []
+	out_data = []
 	for result in data:
-		if type(result) is TestPoint: 
-			if result.ground_truth - result.prediction == 0 :
-				accuracy += 1
-			else:
-				error += (result.ground_truth - result.prediction)**2
-				misses.append(result)
-
-		elif type(result) is DataPoint :
+			
+		if type(result) is DataPoint :
 			p = model.predict(np.expand_dims(result.image.astype("uint8"), axis=0)).round()[0,0]
 			result = TestPoint(result.image, result.num_of_cubes, p)
 			
-			if result.ground_truth - result.prediction == 0 :
-				accuracy += 1
-			
-			else:
-				error += (result.ground_truth - result.prediction)**2
-				misses.append(result)
+		if result.ground_truth - result.prediction == 0 :
+			accuracy += 1
+		
+		else:
+			error += (result.ground_truth - result.prediction)**2
+			misses.append(result)
+
+		out_data.append(result) 
 
 	error = error / len(data)
 	accuracy = accuracy / len(data)
@@ -113,7 +113,7 @@ def evalOnDataset(data, model):
 	print("Prediction Accuracy : " + str(accuracy))
 
 
-	return error, accuracy, misses
+	return error, accuracy, misses, out_data
 
 def missBoxPlots(data):
 	counts = {
@@ -161,4 +161,21 @@ def missBoxPlots(data):
 	fig, ax = plt.subplots()
 	ax.boxplot(counts.values())
 	ax.set_xticklabels(counts.keys())
+	return fig
+
+def getConMat(data):
+	gt = []
+	pred = []
+	for d in data:
+	    gt.append(d.ground_truth)
+	    pred.append(d.prediction)
+	cm = confusion_matrix(gt, pred)
+	df_cm = pd.DataFrame(cm, range(len(cm[0])), range(len(cm[0])))
+	x_axis_labels = list(range(1, len(cm[0])+1))
+	y_axis_labels = list(range(1, len(cm[0])+1))
+	fig = plt.figure(figsize=(10,7))
+	sn.set(font_scale=1.4) # for label size
+	sn.heatmap(df_cm, annot=True, annot_kws={"size": 16},fmt='d',xticklabels=x_axis_labels, yticklabels=y_axis_labels) # font size
+
+	# plt.show()
 	return fig
