@@ -18,5 +18,5 @@ venv/
 *.sublime-workspace
 *.DS_Store
 *.out
-Datasets/
-Model_EP5_LR01_BS256/
+Datasets/*
+Models/*
