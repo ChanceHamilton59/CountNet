@@ -88,12 +88,14 @@ def makeResultDataHist(data):
 
 def evalOnDataset(data, model):
 	error = 0
+	corrected_error = 0
 	accuracy = 0
 	misses = []
 	out_data = []
 	for result in data:
 			
 		if type(result) is DataPoint :
+			pe = model.predict(np.expand_dims(result.image.astype("uint8"), axis=0))[0,0]
 			p = model.predict(np.expand_dims(result.image.astype("uint8"), axis=0)).round()[0,0]
 			result = TestPoint(result.image, result.num_of_cubes, p)
 			
@@ -101,15 +103,18 @@ def evalOnDataset(data, model):
 			accuracy += 1
 		
 		else:
-			error += (result.ground_truth - result.prediction)**2
+			error += (result.ground_truth - pe)**2
+			corrected_error += (result.ground_truth - result.prediction)**2
 			misses.append(result)
 
 		out_data.append(result) 
 
+	corrected_error = corrected_error / len(data)
 	error = error / len(data)
 	accuracy = accuracy / len(data)
 
-	print("Corrected MSE       : " + str(error))
+	print("MSE                 : " + str(error))
+	print("Corrected MSE       : " + str(corrected_error))
 	print("Prediction Accuracy : " + str(accuracy))
 
 
@@ -176,6 +181,8 @@ def getConMat(data):
 	fig = plt.figure(figsize=(10,7))
 	sn.set(font_scale=1.4) # for label size
 	sn.heatmap(df_cm, annot=True, annot_kws={"size": 16},fmt='d',xticklabels=x_axis_labels, yticklabels=y_axis_labels) # font size
-
+	plt.title('Model Results', fontsize = 20) # title with fontsize 20
+	plt.xlabel('Model Prediction', fontsize = 15) # x-axis label with fontsize 15
+	plt.ylabel('Ground Truth', fontsize = 15) # y-axis label with fontsize 15
 	# plt.show()
 	return fig

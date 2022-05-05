@@ -17,7 +17,7 @@ from tensorflow.keras.models import Model
 class CountNet:
 
 	def __init__(self, file_to_save):
-		self.OutputPath = file_to_save
+		self.OutputPath = 'Models/'+file_to_save
 		self.fig_path = mkDir(os.path.join(self.OutputPath,'RESULTS/FIGURES'))
 		self.result_path = mkDir(os.path.join(self.OutputPath,'RESULTS/TestData'))
 		print(self.fig_path, self.result_path)
